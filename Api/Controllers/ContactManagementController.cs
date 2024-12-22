@@ -17,6 +17,9 @@ public class ContactManagementController : ContactsController
     [HttpPost("contacts")]
     public IActionResult Create([FromBody] Contact contact)
     {
+        if (contact.Id <= 0)
+            return BadRequest("Ошибка указания ID");
+
         var success = _contactStorage.Add(contact);
 
         if (success)
@@ -29,25 +32,49 @@ public class ContactManagementController : ContactsController
     public ActionResult<List<Contact>> GetAll() =>
         Ok(_contactStorage.GetAll());
 
-    [HttpDelete("contacts/{id}")]
-    public IActionResult Delete(int id)
+    [HttpGet("contacts/{id}")]
+    public ActionResult<Contact> Get(int id)
     {
+        if (id <= 0)
+            return BadRequest("Ошибка указания ID");
+
+        var user = _contactStorage.Get(id);
+
+        if (user is null)
+            return NotFound("Контакт с таким ID не найден");
+
+        return Ok(user);
+    }
+
+    [HttpDelete("contacts/{id}")]
+    public ActionResult<Contact> Delete(int id)
+    {
+        if (id <= 0)
+            return BadRequest("Ошибка указания ID");
+
+        var user = _contactStorage.Get(id);
         var success = _contactStorage.Delete(id);
 
         if (success)
-            return Ok();
+            return Ok(user);
 
-        return BadRequest("Контакт с таким ID не найден");
+        return NotFound("Контакт с таким ID не найден");
     }
 
     [HttpPut("contacts/{id}")]
-    public IActionResult Update(int id, [FromBody] ContactDto contactDto)
+    public ActionResult<Contact> Update(int id, [FromBody] ContactDto contactDto)
     {
+        if (id <= 0)
+            return BadRequest("Ошибка указания ID");
+
         var success = _contactStorage.Update(id, contactDto);
 
         if (success)
-            return Ok();
+        {
+            var user = _contactStorage.Get(id);
+            return Ok(user);
+        }
 
-        return BadRequest("Контакт с таким ID не найден");
+        return NotFound("Контакт с таким ID не найден");
     }
 }

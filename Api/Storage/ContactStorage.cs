@@ -22,6 +22,9 @@ public class ContactStorage
     public List<Contact> GetAll() => 
         _contacts;
 
+    public Contact Get(int id) =>
+        _contacts.FirstOrDefault(x => x.Id == id);
+
     public bool Add(Contact contact)
     {
         if (_contacts.Any(x => x.Id == contact.Id))
