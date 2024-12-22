@@ -2,9 +2,8 @@
 
 namespace Api.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class TestController : ControllerBase
+
+public class TestController : ContactsController
 {
     [HttpGet("test")]
     public string GetHelloWorldText() => 
