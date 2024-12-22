@@ -15,18 +15,39 @@ public class ContactManagementController : ContactsController
     }
 
     [HttpPost("contacts")]
-    public void Create([FromBody] Contact contact) =>
-        _contactStorage.Add(contact);
+    public IActionResult Create([FromBody] Contact contact)
+    {
+        var success = _contactStorage.Add(contact);
+
+        if (success)
+            return Created();
+
+        return BadRequest("Контакт с таким ID уже существует");
+    }
 
     [HttpGet("contacts")]
-    public List<Contact> GetAll() =>
-        _contactStorage.GetAll();
+    public ActionResult<List<Contact>> GetAll() =>
+        Ok(_contactStorage.GetAll());
 
     [HttpDelete("contacts/{id}")]
-    public void Delete(int id) =>
-        _contactStorage.Delete(id);
+    public IActionResult Delete(int id)
+    {
+        var success = _contactStorage.Delete(id);
+
+        if (success)
+            return Ok();
+
+        return BadRequest("Контакт с таким ID не найден");
+    }
 
     [HttpPut("contacts/{id}")]
-    public void Update(int id, [FromBody] ContactDto contactDto) =>
-        _contactStorage.Update(id, contactDto);
+    public IActionResult Update(int id, [FromBody] ContactDto contactDto)
+    {
+        var success = _contactStorage.Update(id, contactDto);
+
+        if (success)
+            return Ok();
+
+        return BadRequest("Контакт с таким ID не найден");
+    }
 }

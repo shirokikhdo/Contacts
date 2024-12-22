@@ -22,32 +22,38 @@ public class ContactStorage
     public List<Contact> GetAll() => 
         _contacts;
 
-    public void Add(Contact contact) =>
+    public bool Add(Contact contact)
+    {
+        if (_contacts.Any(x => x.Id == contact.Id))
+            return false;
+        
         _contacts.Add(contact);
+        return true;
+    }
 
-    public void Delete(int id)
+    public bool Delete(int id)
     {
         var deletedUser = _contacts
             .FirstOrDefault(x => x.Id == id);
 
-        if (deletedUser is null)
-            return;
-
-        _contacts.Remove(deletedUser);
+        return deletedUser is not null 
+               && _contacts.Remove(deletedUser);
     }
 
-    public void Update(int id, ContactDto contactDto)
+    public bool Update(int id, ContactDto contactDto)
     {
         var updatedUser = _contacts
             .FirstOrDefault(x => x.Id == id);
 
         if (updatedUser is null)
-            return;
+            return false;
 
         if(!string.IsNullOrEmpty(contactDto.Name))
             updatedUser.Name = contactDto.Name;
         
         if(!string.IsNullOrEmpty(contactDto.Email))
             updatedUser.Email = contactDto.Email;
+
+        return true;
     }
 }
