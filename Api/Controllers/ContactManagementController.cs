@@ -16,39 +16,17 @@ public class ContactManagementController : ContactsController
 
     [HttpPost("contacts")]
     public void Create([FromBody] Contact contact) =>
-        _contactStorage.Contacts.Add(contact);
+        _contactStorage.Add(contact);
 
     [HttpGet("contacts")]
     public List<Contact> GetAll() =>
-        _contactStorage.Contacts;
+        _contactStorage.GetAll();
 
     [HttpDelete("contacts/{id}")]
-    public void Delete(int id)
-    {
-        var deletedUser = _contactStorage.Contacts
-            .FirstOrDefault(x => x.Id == id);
-
-        if(deletedUser is null)
-            return;
-
-        _contactStorage.Contacts.Remove(deletedUser);
-    }
+    public void Delete(int id) =>
+        _contactStorage.Delete(id);
 
     [HttpPut("contacts/{id}")]
-    public void Update(
-        int id,
-        [FromBody] ContactDto contactDto)
-    {
-        var updatedUser = _contactStorage.Contacts
-            .FirstOrDefault(x => x.Id == id);
-
-        if (updatedUser is null)
-            return;
-
-        if(!string.IsNullOrEmpty(contactDto.Name))
-            updatedUser.Name = contactDto.Name;
-
-        if(!string.IsNullOrWhiteSpace(contactDto.Email))
-            updatedUser.Email = contactDto.Email;
-    }
+    public void Update(int id, [FromBody] ContactDto contactDto) =>
+        _contactStorage.Update(id, contactDto);
 }
