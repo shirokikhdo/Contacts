@@ -12,10 +12,11 @@ const App = () => {
   )
   
   const addContact = () => {
+    const newId = Math.max(...contacts.map(e => e.id)) + 1;
     const item = {
-      id:Math.floor(Math.random() * 100), 
-      name:"имя 3", 
-      email:"почта 3"};
+      id: newId, 
+      name: "имя 3", 
+      email: "почта 3"};
     setContacts([...contacts, item]);
   }
 
