@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("CorsPolicy", policy =>
         policy.AllowAnyMethod()
             .AllowAnyHeader()
-            .WithOrigins(args[0])));
+            .WithOrigins(builder.Configuration["ClientUrl"])));
 
 var app = builder.Build();
 
