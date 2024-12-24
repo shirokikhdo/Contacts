@@ -17,7 +17,7 @@ const TableContact = (props) =>{
                   contact =>
                     <RowTableContact 
                       id={contact.id}
-                      name = {contact.id}
+                      name = {contact.name}
                       email = {contact.email}/>
                 )
               }
