@@ -13,7 +13,9 @@ const App = () => {
   )
   
   const addContact = (contactName, contactEmail) => {
-    const newId = Math.max(...contacts.map(e => e.id)) + 1;
+    const newId = contacts.length === 0
+      ? 1
+      : Math.max(...contacts.map(e => e.id)) + 1;
     const item = {
       id: newId, 
       name: contactName, 
