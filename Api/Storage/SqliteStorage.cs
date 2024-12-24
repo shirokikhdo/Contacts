@@ -6,16 +6,17 @@ namespace Api.Storage;
 
 public class SqliteStorage : IStorage
 {
+    private readonly string _connectionString = "Data Source=contacts.db";
+
     public List<Contact> GetAll()
     {
         var contacts = new List<Contact>();
 
-        var connectionString = "Data Source=contacts.db";
-        using var connection = new SqliteConnection(connectionString);
+        using var connection = new SqliteConnection(_connectionString);
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "SELECT * FROM contacts";
+        command.CommandText = "SELECT * FROM contacts;";
 
         using var reader = command.ExecuteReader();
         while (reader.Read())
@@ -33,30 +34,67 @@ public class SqliteStorage : IStorage
 
     public Contact Get(int id)
     {
-        throw new NotImplementedException();
+        Contact result = null;
+
+        using var connection = new SqliteConnection(_connectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT * FROM contacts WHERE id=@id;";
+        command.Parameters.AddWithValue("@id", id);
+
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            result = new Contact
+            {
+                Id = reader.GetInt32(0),
+                Name = reader.GetString(1),
+                Email = reader.GetString(2)
+            };
+        }
+
+        return result;
     }
 
     public bool Add(Contact contact)
     {
-        throw new NotImplementedException();
+        using var connection = new SqliteConnection(_connectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "INSERT INTO contacts(name, email) VALUES (@name, @email);";
+        command.Parameters.AddWithValue("@name", contact.Name);
+        command.Parameters.AddWithValue("@email", contact.Email);
+
+        return command.ExecuteNonQuery() > 0;
     }
 
     public bool Delete(int id)
     {
-        var connectionString = "Data Source=contacts.db";
-        using var connection = new SqliteConnection(connectionString);
+        using var connection = new SqliteConnection(_connectionString);
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "DELETE FROM contacts WHERE id = @id";
+        command.CommandText = "DELETE FROM contacts WHERE id = @id;";
         command.Parameters.AddWithValue("@id", id);
 
-        var result = command.ExecuteNonQuery() > 0;
-        return result;
+        return command.ExecuteNonQuery() > 0;
     }
 
     public bool Update(int id, ContactDto dto)
     {
-        throw new NotImplementedException();
+        using var connection = new SqliteConnection(_connectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = @"UPDATE contacts
+                                SET name = @name, email = @email
+                                WHERE id = @id;";
+        command.Parameters.AddWithValue("@id", id);
+        command.Parameters.AddWithValue("@name", dto.Name);
+        command.Parameters.AddWithValue("@email", dto.Email);
+
+        return command.ExecuteNonQuery() > 0;
     }
 }
