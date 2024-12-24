@@ -10,6 +10,8 @@ const FormContact = (props) => {
             || contactEmail.length === 0)
             return;
         props.addContact(contactName, contactEmail);
+        setContactName("");
+        setContactEmail("");
     }
 
     return(
@@ -22,7 +24,8 @@ const FormContact = (props) => {
                                 className="form-control"
                                 rows={1} 
                                 placeholder="Например qwerty"
-                                onChange={(e) => {setContactName(e.target.value)}}/>
+                                onChange={(e) => {setContactName(e.target.value)}}
+                                value={contactName}/>
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Введите Email:</label>
@@ -30,7 +33,8 @@ const FormContact = (props) => {
                             className="form-control"
                             type="text" 
                             placeholder="Например qwerty@mail.ru"
-                            onChange={(e) => {setContactEmail(e.target.value)}}/>
+                            onChange={(e) => {setContactEmail(e.target.value)}}
+                            value={contactEmail}/>
                     </div>
                 </form>
             </div>
