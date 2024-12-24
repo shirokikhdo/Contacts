@@ -22,6 +22,10 @@ const App = () => {
     setContacts([...contacts, item]);
   }
 
+  const deleteContact = (id) => {
+    setContacts(contacts.filter(x=>x.id !== id));
+  }
+
   return (
     <div className="container mt-5">
       <div className="card">
@@ -29,7 +33,9 @@ const App = () => {
           <h1>Список контактов</h1>
         </div>
         <div className="card-body">
-          <TableContact contacts={contacts}/>
+          <TableContact
+            contacts={contacts}
+            deleteContact={deleteContact}/>
           <FormContact addContact={addContact}/>
         </div>
       </div>

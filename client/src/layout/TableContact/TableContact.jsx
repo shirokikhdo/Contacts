@@ -18,7 +18,8 @@ const TableContact = (props) =>{
                     <RowTableContact 
                       id={contact.id}
                       name = {contact.name}
-                      email = {contact.email}/>
+                      email = {contact.email}
+                      deleteContact = {props.deleteContact} />
                 )
               }
             </tbody>
