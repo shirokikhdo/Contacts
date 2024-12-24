@@ -5,12 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<ContactStorage>();
+builder.Services.AddSingleton<IStorage, InMemoryStorage>();
 builder.Services.AddCors(options =>
     options.AddPolicy("CorsPolicy", policy =>
         policy.AllowAnyMethod()
             .AllowAnyHeader()
-            .WithOrigins(builder.Configuration["ClientUrl"])));
+            .WithOrigins(builder.Configuration["ClientHost"])));
 
 var app = builder.Build();
 

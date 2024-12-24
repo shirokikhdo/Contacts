@@ -7,11 +7,11 @@ namespace Api.Controllers;
 
 public class ContactManagementController : ContactsController
 {
-    private readonly ContactStorage _contactStorage;
+    private readonly IStorage _storage;
 
-    public ContactManagementController(ContactStorage contactStorage)
+    public ContactManagementController(IStorage storage)
     {
-        _contactStorage = contactStorage;
+        _storage = storage;
     }
 
     [HttpPost("contacts")]
@@ -20,7 +20,7 @@ public class ContactManagementController : ContactsController
         if (contact.Id <= 0)
             return BadRequest("Ошибка указания ID");
 
-        var success = _contactStorage.Add(contact);
+        var success = _storage.Add(contact);
 
         if (success)
             return Created();
@@ -30,7 +30,7 @@ public class ContactManagementController : ContactsController
 
     [HttpGet("contacts")]
     public ActionResult<List<Contact>> GetAll() =>
-        Ok(_contactStorage.GetAll());
+        Ok(_storage.GetAll());
 
     [HttpGet("contacts/{id}")]
     public ActionResult<Contact> Get(int id)
@@ -38,7 +38,7 @@ public class ContactManagementController : ContactsController
         if (id <= 0)
             return BadRequest("Ошибка указания ID");
 
-        var user = _contactStorage.Get(id);
+        var user = _storage.Get(id);
 
         if (user is null)
             return NotFound("Контакт с таким ID не найден");
@@ -52,8 +52,8 @@ public class ContactManagementController : ContactsController
         if (id <= 0)
             return BadRequest("Ошибка указания ID");
 
-        var user = _contactStorage.Get(id);
-        var success = _contactStorage.Delete(id);
+        var user = _storage.Get(id);
+        var success = _storage.Delete(id);
 
         if (success)
             return Ok(user);
@@ -67,11 +67,11 @@ public class ContactManagementController : ContactsController
         if (id <= 0)
             return BadRequest("Ошибка указания ID");
 
-        var success = _contactStorage.Update(id, contactDto);
+        var success = _storage.Update(id, contactDto);
 
         if (success)
         {
-            var user = _contactStorage.Get(id);
+            var user = _storage.Get(id);
             return Ok(user);
         }
 

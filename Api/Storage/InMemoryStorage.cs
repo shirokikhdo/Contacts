@@ -3,11 +3,11 @@ using Api.Models;
 
 namespace Api.Storage;
 
-public class ContactStorage
+public class InMemoryStorage : IStorage
 {
     private readonly List<Contact> _contacts;
 
-    public ContactStorage()
+    public InMemoryStorage()
     {
         _contacts = Enumerable.Range(1, 10)
             .Select(x => new Contact 
