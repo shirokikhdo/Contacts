@@ -15,8 +15,9 @@ const TableContact = (props) =>{
               {
                 props.contacts.map(
                   contact =>
-                    <RowTableContact 
-                      id={contact.id}
+                    <RowTableContact
+                      key = {contact.id} 
+                      id= {contact.id}
                       name = {contact.name}
                       email = {contact.email}
                       deleteContact = {props.deleteContact} />
