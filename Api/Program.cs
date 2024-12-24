@@ -1,24 +1,11 @@
-using Api.Storage;
+using Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IStorage>(
-    new SqliteStorage(
-        builder.Configuration.GetConnectionString("SqliteConnectionString")));
-builder.Services.AddCors(options =>
-    options.AddPolicy("CorsPolicy", policy =>
-        policy.AllowAnyMethod()
-            .AllowAnyHeader()
-            .WithOrigins(builder.Configuration["ClientHost"])));
+builder.Services.AddServiceCollection(builder.Configuration);
 
 var app = builder.Build();
-
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseCors("CorsPolicy");
