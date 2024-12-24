@@ -6,7 +6,12 @@ namespace Api.Storage;
 
 public class SqliteStorage : IStorage
 {
-    private readonly string _connectionString = "Data Source=contacts.db";
+    private readonly string _connectionString;
+
+    public SqliteStorage(string connectionString)
+    {
+        _connectionString = connectionString;
+    }
 
     public List<Contact> GetAll()
     {
