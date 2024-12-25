@@ -62,17 +62,21 @@ public class SqliteStorage : IStorage
         return result;
     }
 
-    public bool Add(Contact contact)
+    public Contact Add(Contact contact)
     {
         using var connection = new SqliteConnection(_connectionString);
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO contacts(name, email) VALUES (@name, @email);";
+        command.CommandText = @"
+            INSERT INTO contacts(name, email) VALUES (@name, @email);
+            SELECT last_insert_rowid();";
         command.Parameters.AddWithValue("@name", contact.Name);
         command.Parameters.AddWithValue("@email", contact.Email);
 
-        return command.ExecuteNonQuery() > 0;
+        contact.Id = Convert.ToInt32(command.ExecuteScalar());
+
+        return contact;
     }
 
     public bool Delete(int id)

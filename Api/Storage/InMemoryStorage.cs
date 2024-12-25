@@ -25,13 +25,13 @@ public class InMemoryStorage : IStorage
     public Contact Get(int id) =>
         _contacts.FirstOrDefault(x => x.Id == id);
 
-    public bool Add(Contact contact)
+    public Contact Add(Contact contact)
     {
         if (_contacts.Any(x => x.Id == contact.Id))
-            return false;
+            return null;
         
         _contacts.Add(contact);
-        return true;
+        return contact;
     }
 
     public bool Delete(int id)

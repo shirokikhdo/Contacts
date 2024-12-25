@@ -17,15 +17,12 @@ public class ContactManagementController : ContactsController
     [HttpPost("contacts")]
     public IActionResult Create([FromBody] Contact contact)
     {
-        if (contact.Id <= 0)
-            return BadRequest("Ошибка указания ID");
+        var result = _storage.Add(contact);
 
-        var success = _storage.Add(contact);
+        if (result is null)
+            return BadRequest("Контакт с таким ID уже существует");
 
-        if (success)
-            return Created();
-
-        return BadRequest("Контакт с таким ID уже существует");
+        return Ok(result);
     }
 
     [HttpGet("contacts")]

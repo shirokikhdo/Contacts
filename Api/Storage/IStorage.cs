@@ -9,7 +9,7 @@ public interface IStorage
 
     Contact Get(int id);
 
-    bool Add(Contact contact);
+    Contact Add(Contact contact);
 
     bool Delete(int id);
 
