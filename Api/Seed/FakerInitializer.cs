@@ -29,30 +29,30 @@ public class FakerInitializer : IInitializer
         command.CommandText = @"SELECT count(*) FROM contacts;";
         var count = (long) command.ExecuteScalar();
 
-        if (count == 0)
-        {
-            var faker = new Faker("ru");
-            var contacts = Enumerable.Range(1, 20).Select(i =>
-            {
-                var firsName = faker.Name.FirstName();
-                var lastName = faker.Name.LastName();
-                var name = $"{firsName} {lastName}";
-                var email = faker.Internet.Email(firsName, lastName);
-                return new Contact
-                {
-                    Name = name,
-                    Email = email,
-                };
-            });
+        if (count != 0) 
+            return;
 
-            foreach (var contact in contacts)
+        var faker = new Faker("ru");
+        var contacts = Enumerable.Range(1, 20).Select(i =>
+        {
+            var firsName = faker.Name.FirstName();
+            var lastName = faker.Name.LastName();
+            var name = $"{firsName} {lastName}";
+            var email = faker.Internet.Email(firsName, lastName);
+            return new Contact
             {
-                command.CommandText = @"INSERT INTO contacts(name, email) VALUES(@name, @email);";
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@name", contact.Name);
-                command.Parameters.AddWithValue("@email", contact.Email);
-                command.ExecuteNonQuery();
-            }
+                Name = name,
+                Email = email,
+            };
+        });
+
+        foreach (var contact in contacts)
+        {
+            command.CommandText = @"INSERT INTO contacts(name, email) VALUES(@name, @email);";
+            command.Parameters.Clear();
+            command.Parameters.AddWithValue("@name", contact.Name);
+            command.Parameters.AddWithValue("@email", contact.Email);
+            command.ExecuteNonQuery();
         }
     }
 }

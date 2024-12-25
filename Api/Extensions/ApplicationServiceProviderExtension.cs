@@ -1,24 +1,14 @@
 ﻿using Api.Seed;
-using Api.Storage;
 
 namespace Api.Extensions;
 
 public static class ApplicationServiceProviderExtension
 {
     public static IServiceProvider AddServiceProvider(
-        this IServiceProvider provider,
-        IConfiguration configuration)
+        this IServiceProvider provider)
     {
         using var scope = provider.CreateScope();
-        var storage = scope.ServiceProvider.GetService<IStorage>();
-        
-        if (storage is null) 
-            return provider;
-
-        var connectionString = configuration
-            .GetConnectionString("SqliteConnectionString");
-
-        var initializer = new FakerInitializer(connectionString);
+        var initializer = scope.ServiceProvider.GetRequiredService<IInitializer>();
         initializer.Initialize();
 
         return provider;
