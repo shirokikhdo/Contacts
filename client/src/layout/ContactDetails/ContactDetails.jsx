@@ -15,7 +15,7 @@ const ContactDetails = () => {
         axios.get(url).then(
             response => setContact(response.data)
         ).catch(
-            err => navigate("/")
+            () => { navigate("/") }
         )
     }, [id, navigate]);
 
@@ -23,9 +23,9 @@ const ContactDetails = () => {
         const url = `${baseApiUrl}/contacts/${id}`;
         if(window.confirm("Вы уверены, что хотите удалить данного пользователя?")){
             axios.delete(url).then(
-                x => navigate("/")
+                () => { navigate("/") }
             ).catch(
-                console.log("Ошибка удаления")
+                (err) => console.log("Ошибка удаления", err)
             );
         }
     }
@@ -34,9 +34,9 @@ const ContactDetails = () => {
         const url = `${baseApiUrl}/contacts/${id}`;
         if(window.confirm("Вы уверены, что хотите обновить данные пользователя?")){
             axios.put(url, contact).then( 
-                x => navigate("/")
+                () => { navigate("/") }
             ).catch(
-                console.log("Ошибка обновления")
+                (err) => console.log("Ошибка обновления", err)
             );
         }
     }

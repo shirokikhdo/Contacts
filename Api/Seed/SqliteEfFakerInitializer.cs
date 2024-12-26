@@ -22,7 +22,7 @@ public class SqliteEfFakerInitializer : IInitializer
             return;
 
         var faker = new Faker("ru");
-        var contacts = Enumerable.Range(1, 20).Select(i =>
+        var contacts = Enumerable.Range(1, 100).Select(i =>
         {
             var firsName = faker.Name.FirstName();
             var lastName = faker.Name.LastName();
