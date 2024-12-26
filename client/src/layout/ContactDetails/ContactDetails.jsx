@@ -19,6 +19,28 @@ const ContactDetails = () => {
         )
     }, [id, navigate]);
 
+    const handleDelete = () => {
+        const url = `${baseApiUrl}/contacts/${id}`;
+        if(window.confirm("Вы уверены, что хотите удалить данного пользователя?")){
+            axios.delete(url).then(
+                navigate("/")
+            ).catch(
+                console.log("Ошибка удаления")
+            );
+        }
+    }
+
+    const handleUpdate = () => {
+        const url = `${baseApiUrl}/contacts/${id}`;
+        if(window.confirm("Вы уверены, что хотите обновить данные пользователя?")){
+            axios.put(url, contact).then(
+                navigate("/")
+            ).catch(
+                console.log("Ошибка обновления")
+            );
+        }
+    }
+
     return(
         <div className="container mt-5">
             <h2>Детали контакта</h2>
@@ -28,7 +50,9 @@ const ContactDetails = () => {
                     className="form-control"
                     type="text"
                     value={ contact.name }
-                    onChange={ (e) => {}}
+                    onChange={ (e) => { setContact({
+                        ...contact, name: e.target.value
+                    })}}
                     placeholder="Например qwerty"/>
             </div>
             <div className="mb-3">
@@ -37,22 +61,24 @@ const ContactDetails = () => {
                     className="form-control"
                     type="email"
                     value={ contact.email }
-                    onChange={ (e) => {}}
+                    onChange={ (e) => { setContact({
+                        ...contact, email: e.target.value
+                    })}}
                     placeholder="Например qwerty@mail.ru"/>
             </div>
             <button
                 className="btn btn-primary me-2"
-                onClick={() => {}}>
+                onClick={() => { handleUpdate() }}>
                     Обновить
             </button>
             <button
                 className="btn btn-danger"
-                onClick={() => {}}>
+                onClick={() => { handleDelete() }}>
                     Удалить
             </button>
             <button
                 className="btn btn-secondary ms-2"
-                onClick={() => {}}>
+                onClick={() => { navigate("/") }}>
                     Назад
             </button>
         </div>)
