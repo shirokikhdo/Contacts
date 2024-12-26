@@ -3,7 +3,7 @@ using Api.Models;
 
 namespace Api.Storage;
 
-public class SqliteEfStorage : IStorage
+public class SqliteEfStorage : IStorage, IPaginationStorage
 {
     private readonly SqliteDbContext _dbContext;
 
@@ -60,5 +60,15 @@ public class SqliteEfStorage : IStorage
 
         _dbContext.SaveChanges();
         return true;
+    }
+
+    public (List<Contact>, int Total) GetPagination(int pageNumber, int pageSize)
+    {
+        var total = _dbContext.Contacts.Count();
+        var contacts = _dbContext.Contacts
+            .Skip((pageNumber-1)*pageSize)
+            .Take(pageSize)
+            .ToList();
+        return (contacts, total);
     }
 }

@@ -16,7 +16,7 @@ public static class ApplicationServiceCollectionExtension
         services.AddSwaggerGen();
         services.AddDbContext<SqliteDbContext>(options =>
             options.UseSqlite(connectionString));
-        services.AddScoped<IStorage, SqliteEfStorage>();
+        services.AddScoped<IPaginationStorage, SqliteEfStorage>();
         services.AddScoped<IInitializer, SqliteEfFakerInitializer>();
         services.AddCors(options =>
             options.AddPolicy("CorsPolicy", policy =>

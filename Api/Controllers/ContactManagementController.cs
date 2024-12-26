@@ -7,9 +7,9 @@ namespace Api.Controllers;
 
 public class ContactManagementController : ContactsController
 {
-    private readonly IStorage _storage;
+    private readonly IPaginationStorage _storage;
 
-    public ContactManagementController(IStorage storage)
+    public ContactManagementController(IPaginationStorage storage)
     {
         _storage = storage;
     }
@@ -73,5 +73,19 @@ public class ContactManagementController : ContactsController
         }
 
         return NotFound("Контакт с таким ID не найден");
+    }
+
+    [HttpGet("contacts/page")]
+    public ActionResult<List<Contact>> GetPagination(int pageNumber = 1, int pageSize = 5)
+    {
+        var (contacts, total) = _storage.GetPagination(pageNumber, pageSize);
+        var response = new
+        {
+            Contacts = contacts,
+            TotalCount = total,
+            CurrentPage = pageNumber,
+            PageSize = pageSize
+        };
+        return Ok(response);
     }
 }
