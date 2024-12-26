@@ -23,7 +23,7 @@ const ContactDetails = () => {
         const url = `${baseApiUrl}/contacts/${id}`;
         if(window.confirm("Вы уверены, что хотите удалить данного пользователя?")){
             axios.delete(url).then(
-                navigate("/")
+                x => navigate("/")
             ).catch(
                 console.log("Ошибка удаления")
             );
@@ -33,8 +33,8 @@ const ContactDetails = () => {
     const handleUpdate = () => {
         const url = `${baseApiUrl}/contacts/${id}`;
         if(window.confirm("Вы уверены, что хотите обновить данные пользователя?")){
-            axios.put(url, contact).then(
-                navigate("/")
+            axios.put(url, contact).then( 
+                x => navigate("/")
             ).catch(
                 console.log("Ошибка обновления")
             );
