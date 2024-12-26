@@ -59,7 +59,8 @@ public class ContactManagementController : ContactsController
     }
 
     [HttpPut("contacts/{id}")]
-    public ActionResult<Contact> Update(int id, [FromBody] ContactDto contactDto)
+    public ActionResult<Contact> Update(
+        int id, [FromBody] ContactDto contactDto)
     {
         if (id <= 0)
             return BadRequest("Ошибка указания ID");
@@ -76,9 +77,11 @@ public class ContactManagementController : ContactsController
     }
 
     [HttpGet("contacts/page")]
-    public ActionResult<List<Contact>> GetPagination(int pageNumber = 1, int pageSize = 5)
+    public ActionResult<List<Contact>> GetPagination(
+        int pageNumber = 1, int pageSize = 5)
     {
-        var (contacts, total) = _storage.GetPagination(pageNumber, pageSize);
+        var (contacts, total) = _storage
+            .GetPagination(pageNumber, pageSize);
         var response = new
         {
             Contacts = contacts,
