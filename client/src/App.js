@@ -63,7 +63,7 @@ const App = () => {
                 <Pagination
                   currentPage = {currentPage}
                   totalPages = {totalPages}
-                  onPageChanged = {handlePageChange}/>
+                  onPageChange={handlePageChange} />
                 <FormContact addContact={addContact}/>
               </div>
             </div>
