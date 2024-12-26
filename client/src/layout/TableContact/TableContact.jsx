@@ -19,8 +19,7 @@ const TableContact = (props) =>{
                       key = {contact.id} 
                       id= {contact.id}
                       name = {contact.name}
-                      email = {contact.email}
-                      deleteContact = {props.deleteContact} />
+                      email = {contact.email} />
                 )
               }
             </tbody>
