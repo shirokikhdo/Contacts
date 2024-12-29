@@ -7,7 +7,7 @@ import Pagination from "./layout/Pagination/Pagination";
 import { Link } from "react-router-dom";
 import AppendContact from "./layout/FormContact/AppendContact";
 
-const baseApiUrl = process.env.REACT_APP_API_URL;
+const baseApiUrl = window.config.apiUrl;
 
 const App = () => {
 
