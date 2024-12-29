@@ -1,14 +1,26 @@
 ﻿namespace Api.Middleware;
 
+/// <summary>
+/// Промежуточное ПО для обработки запросов к файлу конфигурации <c>config.js</c>.
+/// </summary>
 public class ConfigMiddleware
 {
     private readonly RequestDelegate _next;
 
+    /// <summary>
+    /// Инициализирует новый экземпляр класса <see cref="ConfigMiddleware"/>.
+    /// </summary>
+    /// <param name="next">Делегат, представляющий следующий компонент в конвейере обработки запросов.</param>
     public ConfigMiddleware(RequestDelegate next)
     {
         _next = next;
     }
 
+    /// <summary>
+    /// Асинхронно обрабатывает входящие HTTP-запросы.
+    /// </summary>
+    /// <param name="context">Контекст текущего HTTP-запроса.</param>
+    /// <returns>Задача, представляющая асинхронную операцию.</returns>
     public async Task InvokeAsync(HttpContext context)
     {
         if (context.Request.Path == "/config.js")

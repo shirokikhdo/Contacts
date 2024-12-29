@@ -3,10 +3,17 @@ using Api.Models;
 
 namespace Api.Storage;
 
+/// <summary>
+/// Реализация интерфейса <see cref="IStorage"/> для хранения контактов в памяти.
+/// </summary>
 public class InMemoryStorage : IStorage
 {
     private readonly List<Contact> _contacts;
 
+    /// <summary>
+    /// Инициалирует новый объект класса <see cref="InMemoryStorage"/>.
+    /// Создает начальный список из 10 фейковых контактов.
+    /// </summary>
     public InMemoryStorage()
     {
         _contacts = Enumerable.Range(1, 10)

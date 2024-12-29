@@ -4,10 +4,17 @@ using Microsoft.Data.Sqlite;
 
 namespace Api.Storage;
 
+/// <summary>
+/// Реализация интерфейса <see cref="IStorage"/> для работы с контактами в базе данных SQLite.
+/// </summary>
 public class SqliteStorage : IStorage
 {
     private readonly string _connectionString;
 
+    /// <summary>
+    /// Инициализирует новый экземпляр класса <see cref="SqliteStorage"/> с заданной строкой подключения к базе данных.
+    /// </summary>
+    /// <param name="connectionString">Строка подключения к базе данных SQLite.</param>
     public SqliteStorage(string connectionString)
     {
         _connectionString = connectionString;

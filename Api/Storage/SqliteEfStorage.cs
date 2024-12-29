@@ -3,10 +3,17 @@ using Api.Models;
 
 namespace Api.Storage;
 
-public class SqliteEfStorage : IStorage, IPaginationStorage
+/// <summary>
+/// Реализация хранилища для работы с контактами в базе данных SQLite.
+/// </summary>
+public class SqliteEfStorage : IPaginationStorage
 {
     private readonly SqliteDbContext _dbContext;
 
+    // <summary>
+    /// Инициализирует новый экземпляр класса <see cref="SqliteEfStorage"/> с заданным контекстом базы данных.
+    /// </summary>
+    /// <param name="dbContext">Контекст базы данных <see cref="SqliteDbContext"/> для работы с контактами.</param>
     public SqliteEfStorage(SqliteDbContext dbContext)
     {
         _dbContext = dbContext;
