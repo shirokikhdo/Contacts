@@ -57,7 +57,8 @@ npm i axios
 ## Установка
 
 1. Клонируйте репозиторий:
-```git clone https://github.com/shirokikhdo/Contacts.git
+```
+git clone https://github.com/shirokikhdo/Contacts.git
 cd Contacts
 ```
 
